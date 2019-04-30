@@ -65,9 +65,18 @@ public class TestDirectedGraph {
 		printPath(numPath);
 		
 		
+		try{
+			numPath = numVertex.bestSearch(1, 0, coster);
+			printPath(numPath);
+		}
+		catch(Exception e){
+			System.out.println("\nThe path from verticies 1 to 0 does not exist");
+		}
+		
+		// Since graph is directional add edge from 1 to 0
+		numVertex.addEdge(1, 0, 10);
 		numPath = numVertex.bestSearch(1, 0, coster);
 		printPath(numPath);
-		
 		
 		
 

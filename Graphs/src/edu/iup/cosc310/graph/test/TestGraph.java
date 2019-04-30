@@ -56,41 +56,6 @@ public class TestGraph {
 			
 		};
 		
-		Graph<String, Integer> cities2 = new ALGraph<String, Integer>(false, true);
-		cities2.addVertex("A");
-		cities2.addVertex("B");
-		cities2.addVertex("C");
-		cities2.addVertex("D");
-		cities2.addVertex("E");
-		cities2.addVertex("F");
-		cities2.addVertex("G");
-		cities2.addEdge("A", "B", 1);
-		cities2.addEdge("A", "C", 5);
-		cities2.addEdge("B", "C", 2);
-		cities2.addEdge("B", "D", 3);
-		cities2.addEdge("B", "E", 1);
-		cities2.addEdge("C", "F", 3);
-		cities2.addEdge("C", "G", 2);
-		
-		
-		System.out.println("depth");
-		List<String> cityPat = cities2.bestSearch("A", "G", coster);
-		printPath(cityPat);
-		
-		
-//		for (Iterator<String> iter = cities.adjacentTo("Columbus"); iter.hasNext();) {
-//			String city = iter.next();
-//			Integer distance = cities.getWeight("Columbus", city);
-//			System.out.printf("%s %d\n", city, distance);
-//		}
-		
-		
-//		for (Iterator<String> iter = cities.breadthFirstIterator("Columbus"); iter.hasNext();) {
-//			String city = iter.next();
-//			Integer distance = cities.getWeight("Columbus", city);
-//			System.out.printf("%s %d\n", city, distance);
-//		}
-		
 		System.out.println("BreadthFirstSearch");
 		List<String> cityPath = cities.breadthFirstSearch("Philadelphia", "Detriot");
 		printPath(cityPath);
@@ -115,11 +80,7 @@ public class TestGraph {
 		
 		cityPath = cities.bestSearch("Fort Wayne", "Toledo", coster);
 		printPath(cityPath);
-		
-		
 
-	
-		
 	}
 	
 	/**

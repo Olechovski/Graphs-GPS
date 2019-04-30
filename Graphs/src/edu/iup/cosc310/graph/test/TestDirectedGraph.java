@@ -2,9 +2,9 @@ package edu.iup.cosc310.graph.test;
 
 import java.util.List;
 
-import edu.iup.cosc310.graph.ALGraph;
-import edu.iup.cosc310.graph.Costable;
-import edu.iup.cosc310.graph.Graph;
+import edu.iup.cosc310.graph.bo.ALGraph;
+import edu.iup.cosc310.graph.bo.Costable;
+import edu.iup.cosc310.graph.bo.Graph;
 
 /**
  * This is a test class to test the paths

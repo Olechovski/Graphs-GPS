@@ -2,10 +2,10 @@ package edu.iup.cosc310.graph.test;
 
 import java.util.List;
 
-import edu.iup.cosc310.graph.ALGraph;
-import edu.iup.cosc310.graph.Costable;
-import edu.iup.cosc310.graph.Graph;
-import edu.iup.cosc310.graph.Road;
+import edu.iup.cosc310.graph.bo.ALGraph;
+import edu.iup.cosc310.graph.bo.Costable;
+import edu.iup.cosc310.graph.bo.Graph;
+import edu.iup.cosc310.graph.bo.Road;
 
 /**
  * This is a test class for testing the 

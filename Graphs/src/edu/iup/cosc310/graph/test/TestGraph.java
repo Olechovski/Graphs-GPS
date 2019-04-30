@@ -2,9 +2,12 @@ package edu.iup.cosc310.graph.test;
 
 import java.util.Iterator;
 import java.util.List;
-import edu.iup.cosc310.graph.ALGraph;
-import edu.iup.cosc310.graph.Costable;
-import edu.iup.cosc310.graph.Graph;
+
+import edu.iup.cosc310.graph.bo.ALGraph;
+import edu.iup.cosc310.graph.bo.Costable;
+import edu.iup.cosc310.graph.bo.Graph;
+import edu.iup.cosc310.graph.io.EdgeReader;
+import edu.iup.cosc310.graph.io.VertexReader;
 
 /**
  * Test program to test given graph cases.
@@ -15,37 +18,15 @@ import edu.iup.cosc310.graph.Graph;
  *
  */
 public class TestGraph {
+	private Graph<String, Integer> cities;
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		Graph<String, Integer> cities = new ALGraph<String, Integer>(false, true);
-		cities.addVertex("Chicago");
-		cities.addVertex("Ann Arbor");
-		cities.addVertex("Detriot");
-		cities.addVertex("Toledo");
-		cities.addVertex("Cleveland");
-		cities.addVertex("Pittsburgh");
-		cities.addVertex("Philadelphia");
-		cities.addVertex("Columbus");
-		cities.addVertex("Indianapolis");
-		cities.addVertex("Fort Wayne");
-		cities.addEdge("Chicago", "Ann Arbor", 260);
-		cities.addEdge("Chicago", "Fort Wayne", 148);
-		cities.addEdge("Chicago", "Indianapolis", 180);
-		cities.addEdge("Indianapolis", "Fort Wayne", 120);
-		cities.addEdge("Detriot", "Ann Arbor", 50);
-		cities.addEdge("Toledo", "Ann Arbor", 40);
-		cities.addEdge("Detriot", "Toledo", 60);
-		cities.addEdge("Cleveland", "Toledo", 120);
-		cities.addEdge("Columbus", "Toledo", 155);
-		cities.addEdge("Indianapolis", "Columbus", 180);
-		cities.addEdge("Cleveland", "Columbus", 150);
-		cities.addEdge("Cleveland", "Pittsburgh", 130);
-		cities.addEdge("Columbus", "Pittsburgh", 180);
-		cities.addEdge("Philadelphia", "Pittsburgh", 180);
-		cities.addEdge("Detriot", "Pittsburgh", 400);
+		TestGraph tg = new TestGraph();
+
+		tg.cities = new ALGraph<String, Integer>(false, true);
+		
+		tg.loadVerticies(args[0]);
+		tg.loadEdges(args[1]);
 		
 		Costable<Integer> coster = new Costable<Integer>(){
 
@@ -57,46 +38,59 @@ public class TestGraph {
 		};
 		
 		System.out.println("BreadthFirstSearch");
-		List<String> cityPath = cities.breadthFirstSearch("Philadelphia", "Detriot");
+		List<String> cityPath = tg.cities.breadthFirstSearch("Philadelphia", "Detriot");
 		printPath(cityPath);
 		
-		cityPath = cities.breadthFirstSearch("Fort Wayne", "Toledo");
+		cityPath = tg.cities.breadthFirstSearch("Fort Wayne", "Toledo");
 		printPath(cityPath);
 		
 	
 		System.out.println("\n\n\nDepthFirstSearch");
-		cityPath = cities.depthFirstSearch("Philadelphia", "Detriot");
+		cityPath = tg.cities.depthFirstSearch("Philadelphia", "Detriot");
 		printPath(cityPath);
 		
 		
-		cityPath = cities.depthFirstSearch("Fort Wayne", "Toledo");
+		cityPath = tg.cities.depthFirstSearch("Fort Wayne", "Toledo");
 		printPath(cityPath);
 		
 		
 		System.out.println("\n\n\nBestSearch");
-		cityPath = cities.bestSearch("Philadelphia", "Detriot", coster);
+		cityPath = tg.cities.bestSearch("Philadelphia", "Detriot", coster);
 		printPath(cityPath);
 		
 		
-		cityPath = cities.bestSearch("Fort Wayne", "Toledo", coster);
+		cityPath = tg.cities.bestSearch("Fort Wayne", "Toledo", coster);
 		printPath(cityPath);
 
 	}
 	
-	/**
-	 * Displays existing path
-	 * 
-	 * @param cityPath
-	 */
+	private void loadEdges(String fileName) {
+		EdgeReader er = new EdgeReader(fileName);
+		String[] edge;
+		while ((edge = er.readEdges()) != null) {
+			String fromVertex = edge[0];
+			String toVertex = edge[1];
+			int weight = Integer.parseInt(edge[2]);
+			cities.addEdge(fromVertex, toVertex, weight);
+		}		
+	}
+
+	private void loadVerticies(String fileName) {
+		VertexReader vr = new VertexReader(fileName);
+		String vertex;
+		while ((vertex = vr.readVerticies()) != null) {
+			cities.addVertex(vertex);
+		}		
+	}
+
 	public static void printPath(List<String> cityPath){
-		
 		if (cityPath == null) {
 			System.out.println("No path found");
-		} else {
+		}
+		else {
 			System.out.print("\nPath found:");
 			for (String city : cityPath) {
 				System.out.print(" " + city);
-				
 			}
 		}
 		

@@ -1,4 +1,4 @@
-package edu.iup.cosc310.graph;
+package edu.iup.cosc310.graph.bo;
 
 import java.util.Iterator;
 import java.util.List;

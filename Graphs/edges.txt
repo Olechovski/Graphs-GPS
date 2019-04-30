@@ -1,0 +1,15 @@
+Chicago, Ann Arbor, 260
+Chicago, Fort Wayne, 148
+Chicago, Indianapolis, 180
+Indianapolis, Fort Wayne, 120
+Detriot, Ann Arbor, 50
+Toledo, Ann Arbor, 40
+Detriot, Toledo, 60
+Cleveland, Toledo, 120
+Columbus, Toledo, 155
+Indianapolis, Columbus, 180
+Cleveland, Columbus, 150
+Cleveland, Pittsburgh, 130
+Columbus, Pittsburgh, 180
+Philadelphia, Pittsburgh, 180
+Detriot, Pittsburgh, 400

@@ -9,7 +9,7 @@ Cleveland, Toledo, 120
 Columbus, Toledo, 155
 Indianapolis, Columbus, 180
 Cleveland, Columbus, 150
-Cleveland, Pittsburgh, 130
+Pittsburgh, Cleveland, 130
 Columbus, Pittsburgh, 180
 Philadelphia, Pittsburgh, 180
 Detriot, Pittsburgh, 400

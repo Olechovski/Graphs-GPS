@@ -346,7 +346,11 @@ public class ALGraph<V, W> implements Graph<V, W> {
 		}
 
 		path.add(v.value);
-
+		
+		if(start == end) {
+			return path;
+		}
+		
 		queue.add(path);
 		visited.add(v.value);
 
@@ -388,9 +392,6 @@ public class ALGraph<V, W> implements Graph<V, W> {
 		}
 
 		return depthFirstSearch (path, visited, end);
-
-
-
 	}
 
 	private List<V> depthFirstSearch(ArrayList<V> path, Set<V> visited, V end){

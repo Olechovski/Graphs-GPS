@@ -15,6 +15,7 @@ import edu.iup.cosc310.graph.bo.Costable;
 import edu.iup.cosc310.graph.bo.Graph;
 import edu.iup.cosc310.graph.io.EdgeReader;
 import edu.iup.cosc310.graph.io.VertexReader;
+import edu.iup.cosc310.graph.util.GraphBuilder;
 
 /**
  * @author Eric Olechovski
@@ -23,84 +24,50 @@ import edu.iup.cosc310.graph.io.VertexReader;
 public class JunitTestGraph {
 
 	private static Graph<String, Integer> cities;
-	private static Costable<Integer> coster = new Costable<Integer>(){
-		@Override
-		public double getCost(Integer weight) {
-			return weight;
-		}
-
-	};
+	private static Costable<Integer> coster;
+	private static GraphBuilder<Integer> gb;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		cities = new ALGraph<String, Integer>(false, true);
-
-
-		VertexReader vr = new VertexReader("verticies.txt");
-		String vertex;
-		while ((vertex = vr.readVerticies()) != null) {
-			cities.addVertex(vertex);
-		}	
-
-		EdgeReader er = new EdgeReader("edges.txt");
-		String[] edge;
-		while ((edge = er.readEdges()) != null) {
-			String fromVertex = edge[0];
-			String toVertex = edge[1];
-			int weight = Integer.parseInt(edge[2]);
-			cities.addEdge(fromVertex, toVertex, weight);
-		}					
+		gb = new GraphBuilder<Integer>(false, true, "verticies.txt", "edges.txt");
+		cities = gb.getGraph();
+		coster = gb.getCoster();
 	}
 	
-	public static String printPath(List<String> cityPath){
-		String path = "";
-		if (cityPath == null) {
-			System.out.println("\nNo path found");
-		}
-		else {
-			System.out.print("\nPath found:");
-			for (String city : cityPath) {
-				System.out.print(" " + city);
-				path = path + city + " ";
-			}
-		}
-		return path.trim();
-	}
-
 	@Test
 	public void testBreadthFirstSearch() {
 		System.out.println("\n\nBreadth First Search");
 		List<String> cityPath = cities.breadthFirstSearch("Philadelphia", "Detriot");
-		assertEquals("Philadelphia Pittsburgh Detriot", printPath(cityPath));
+		assertEquals("Philadelphia Pittsburgh Detriot", gb.printPath(cityPath));
 		cityPath = cities.breadthFirstSearch("Fort Wayne", "Toledo");
-		assertEquals("Fort Wayne Chicago Ann Arbor Toledo", printPath(cityPath));
+		assertEquals("Fort Wayne Chicago Ann Arbor Toledo", gb.printPath(cityPath));
 		
 		cityPath = cities.breadthFirstSearch("Philadelphia", "Philadelphia");
-		assertEquals("Philadelphia", printPath(cityPath));
+		assertEquals("Philadelphia", gb.printPath(cityPath));
 	}
 
 	@Test
 	public void testDepthFirstSearch() {
 		System.out.println("\n\nDepth First Search");
 		List<String> cityPath = cities.depthFirstSearch("Philadelphia", "Detriot");
-		assertEquals("Philadelphia Pittsburgh Cleveland Columbus Indianapolis Chicago Ann Arbor Detriot", printPath(cityPath));
+		assertEquals("Philadelphia Pittsburgh Cleveland Columbus Indianapolis Chicago Ann Arbor Detriot", gb.printPath(cityPath));
 		
 		cityPath = cities.depthFirstSearch("Fort Wayne", "Toledo");
-		assertEquals("Fort Wayne Chicago Ann Arbor Detriot Pittsburgh Cleveland Columbus Toledo", printPath(cityPath));
+		assertEquals("Fort Wayne Chicago Ann Arbor Detriot Pittsburgh Cleveland Columbus Toledo", gb.printPath(cityPath));
 		
 		cityPath = cities.depthFirstSearch("Philadelphia", "Philadelphia");
-		assertEquals("Philadelphia", printPath(cityPath));
+		assertEquals("Philadelphia", gb.printPath(cityPath));
 	}
 
 	@Test
 	public void testBestSearch() {
 		System.out.println("Best Search");
 		List<String> cityPath = cities.bestSearch("Philadelphia", "Detriot", coster);
-		assertEquals("Philadelphia Pittsburgh Cleveland Toledo Detriot", printPath(cityPath));
+		assertEquals("Philadelphia Pittsburgh Cleveland Toledo Detriot", gb.printPath(cityPath));
 		
 		cityPath = cities.bestSearch("Fort Wayne", "Toledo", coster);
-		assertEquals("Fort Wayne Chicago Ann Arbor Toledo", printPath(cityPath));
+		assertEquals("Fort Wayne Chicago Ann Arbor Toledo", gb.printPath(cityPath));
 		
 		cityPath = cities.bestSearch("Philadelphia", "Philadelphia", coster);
-		assertEquals("Philadelphia", printPath(cityPath));
+		assertEquals("Philadelphia", gb.printPath(cityPath));
 	}
 }

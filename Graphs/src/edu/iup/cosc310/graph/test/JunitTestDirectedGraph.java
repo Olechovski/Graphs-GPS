@@ -12,50 +12,17 @@ import edu.iup.cosc310.graph.bo.Costable;
 import edu.iup.cosc310.graph.bo.Graph;
 import edu.iup.cosc310.graph.io.EdgeReader;
 import edu.iup.cosc310.graph.io.VertexReader;
+import edu.iup.cosc310.graph.util.GraphBuilder;
 
 public class JunitTestDirectedGraph {
 	private static Graph<String, Integer> cities;
-	private static Costable<Integer> coster = new Costable<Integer>(){
-		@Override
-		public double getCost(Integer weight) {
-			return weight;
-		}
-
-	};
+	private static Costable<Integer> coster;
+	private static GraphBuilder<Integer> gb;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		cities = new ALGraph<String, Integer>(true, true);
-
-		VertexReader vr = new VertexReader("verticies.txt");
-		String vertex;
-		while ((vertex = vr.readVerticies()) != null) {
-			cities.addVertex(vertex);
-		}	
-
-		EdgeReader er = new EdgeReader("edges.txt");
-		String[] edge;
-		while ((edge = er.readEdges()) != null) {
-			String fromVertex = edge[0];
-			String toVertex = edge[1];
-			int weight = Integer.parseInt(edge[2]);
-			cities.addEdge(fromVertex, toVertex, weight);
-		}					
-	}
-	
-	public static String printPath(List<String> cityPath){
-		String path = "";
-		if (cityPath == null) {
-			System.out.println("\nNo path found");
-			path = "No Path Found";
-		}
-		else {
-			System.out.print("\nPath found:");
-			for (String city : cityPath) {
-				System.out.print(" " + city);
-				path = path + city + " ";
-			}
-		}
-		return path.trim();
+		gb = new GraphBuilder<Integer>(true, true, "verticies.txt", "edges.txt");
+		cities = gb.getGraph();
+		coster = gb.getCoster();
 	}
 	
 	
@@ -78,10 +45,10 @@ public class JunitTestDirectedGraph {
 	public void testBreadthFirstSearch() {
 		System.out.println("\n\nBreadth First Search");
 		List<String> cityPath = cities.breadthFirstSearch("Philadelphia", "Cleveland");
-		assertEquals("Philadelphia Pittsburgh Cleveland", printPath(cityPath));
+		assertEquals("Philadelphia Pittsburgh Cleveland", gb.printPath(cityPath));
 		
 		cityPath = cities.breadthFirstSearch("Cleveland", "Philadelphia");
-		assertEquals("No Path Found", printPath(cityPath));
+		assertEquals("No Path Found", gb.printPath(cityPath));
 		
 	}
 
@@ -89,10 +56,10 @@ public class JunitTestDirectedGraph {
 	public void testDepthFirstSearch() {
 		System.out.println("\n\nDepth First Search");
 		List<String> cityPath = cities.depthFirstSearch("Philadelphia", "Cleveland");
-		assertEquals("Philadelphia Pittsburgh Cleveland", printPath(cityPath));
+		assertEquals("Philadelphia Pittsburgh Cleveland", gb.printPath(cityPath));
 		
 		cityPath = cities.depthFirstSearch("Cleveland", "Philadelphia");
-		assertEquals("No Path Found", printPath(cityPath));
+		assertEquals("No Path Found", gb.printPath(cityPath));
 	}
 
 	@Test
